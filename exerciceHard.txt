@@ -1,0 +1,103 @@
+1 - https://www.learnrxjs.io/learn-rxjs/operators/combination/combinelatest
+    Example 1: Combining observables emitting at 3 intervals with timer ✅ 4 Mai 2022
+    Example 2: combineLatest with projection function ✅ 28 Avril 2022
+    Example 3: Combining events from 2 buttons ✅ 28 Avril 2022
+2 - https://www.learnrxjs.io/learn-rxjs/operators/combination/concat
+    Example 1: Basic concat usage with three observables ✅ 28 AVRIL 2022
+    Example 2: Display message using concat with delayed observables ✅ 28 Avril 2022
+    Example 3: (Warning!) concat with source that does not complete ✅ 28 Avril 2022
+3 - https://www.learnrxjs.io/learn-rxjs/operators/combination/merge
+    Example 1: merging multiple observables, static method ✅ 12 Mai 2022
+    Example 2: merge 2 observables, instance method // it's deprecated
+4 - https://www.learnrxjs.io/learn-rxjs/operators/combination/startwith
+    Example 1: startWith on number sequence ✅ 28 Avril 2022
+    Example 2: startWith for initial scan value ✅ 28 Avril 2022
+    Example 3: startWith multiple values ✅ 28 Avril 2022
+5 - https://www.learnrxjs.io/learn-rxjs/operators/combination/withlatestfrom
+    Example 1: Latest value from quicker second source ✅ 28 Avril 2022
+    Example 2: Slower second source ✅ 28 Avril 2022
+6 - https://www.learnrxjs.io/learn-rxjs/operators/creation/ajax
+    Example 1: Observable that emits the response object that is being returned from the request. ✅ 28 Avril 2022
+    Example 2: Observable that emits only the json key of the response object that is being returned
+    from the request. ✅ 28 Avril 2022
+    Example 3: Observable that emits the error object that is being returned from the request. ✅ 28 Avril 2022
+    Example 4: Ajax operator with object as input. ✅ 28 Avril 2022
+7 - https://www.learnrxjs.io/learn-rxjs/operators/creation/from
+    Example 1: Observable from array ✅ 28 Avril 2022
+    Example 2: Observable from promise ✅ 28 Avril 2022
+    Example 3: Observable from collection ✅ 28 Avril 2022
+8 - https://www.learnrxjs.io/learn-rxjs/operators/creation/of
+    Example 1: Emitting a sequence of numbers ✅ 28 Avril 2022
+    Example 2: Emitting an object, array, and function ✅ 28 Avril 2022
+9 - https://www.learnrxjs.io/learn-rxjs/operators/error_handling/catch
+    1 - Example 1: Catching error from observable ✅ 5 Mai 2022
+    2 - Example 2: Catching rejected promise ❌ 12 Mai 2022
+    3 Example 3: Catching errors comparison when using 
+    switchMap/mergeMap/concatMap/exhaustMap ❌ 12 Mai 2022
+10 - https://www.learnrxjs.io/learn-rxjs/operators/multicasting/share
+    1 - Example 1: Multiple subscribers sharing source ❌ 12 mai 2022
+11 - https://www.learnrxjs.io/learn-rxjs/operators/multicasting/sharereplay
+    1 - For instance, suppose you have an observable that emits the last visited url.
+    In the first example we are going to use share: ✅ 5 Mai 2022
+    2 - In the above example nothing is logged as the lateSubscriber subscribes to the source.
+    Now suppose instead we wanted to give access to the last emitted value on subscription,
+    we can accomplish this with shareReplay: ❌ 12 Mai 2022
+    3 - Example 1: Multiple subscribers sharing source ❌ 14 Mai 2022
+12 - https://www.learnrxjs.io/learn-rxjs/operators/filtering/debouncetime
+    1 - Example 1: Debouncing based on time between input ✅ 6 Mai 2022
+13 - https://www.learnrxjs.io/learn-rxjs/operators/filtering/distinctuntilchanged
+    1 - Example 1: distinctUntilChanged with basic values ✅ 28 Avril 2022
+    2 - Example 2: distinctUntilChanged with objects ✅ 28 Avril 2022
+    3 - Example 3: Using custom comparer function ✅ 28 Avril 2022
+14 - https://www.learnrxjs.io/learn-rxjs/operators/filtering/filter
+    1 - Example 1: filter for even numbers ✅ 28 Avril 2022
+    2 - Example 2: filter objects based on property ✅ 28 Avril 2022
+    3 - Example 3: filter for number greater than specified value ✅ 28 Avril 2022
+15 - https://www.learnrxjs.io/learn-rxjs/operators/filtering/take
+    1 - Example 1: Take 1 value from source ✅ 26 Avril 2022
+    2 - Example 2: Take the first 5 values from source ✅ 26 Avril 2022
+    3 - Example 3: Taking first click location ✅ 26 Avril 2022
+16 - https://www.learnrxjs.io/learn-rxjs/operators/filtering/takeuntil
+    1 - Example 1: Take values until timer emits ✅ 6 Mai 2022
+    2 - Example 2: Take the first 5 even numbers ❌ 14 Mai 2022
+    3 -  Example 3: Take mouse events on mouse down until mouse up ❌ 14 Mai 2022
+17 - https://www.learnrxjs.io/learn-rxjs/operators/transformation/buffertime
+    1 - Example 1: Buffer for 2 seconds ❌ 8 Mai 2022
+    2 - Example 2: Multiple active buffers ❌ 8 Mai 2022
+18 - https://www.learnrxjs.io/learn-rxjs/operators/transformation/concatmap
+    1 - Example 1: Demonstrating the difference between concatMap and mergeMap ❌ 14 Mai 2022
+    2 - Example 2: Map to promise ✅ 14 Mai 2022
+    3 - Example 3: Supplying a projection function ✅ 14 Mai 2022
+19 - https://www.learnrxjs.io/learn-rxjs/operators/transformation/map
+    1 - Example 1: Add 10 to each number ✅ 1 Mai 2022
+    2 - Example 2: Map to single property ✅ 1 Mai 2022
+20 - https://www.learnrxjs.io/learn-rxjs/operators/transformation/mergemap
+    1 - Example 1: mergeMap simulating save of click locations ✅ 14 Mai 2022
+    2 - Example 2: mergeMap with ajax observable on mouse click ✅ 14 Mai 2022
+    3 - Example 3: mergeMap with promise (could also use from to convert to observable) ✅ 14 Mai 2022
+    4 - Example 4: mergeMap with resultSelector // deprecated use Map instead
+    5 - Example 5: mergeMap with concurrent value // deprecated use Map instead
+21 - https://www.learnrxjs.io/learn-rxjs/operators/transformation/scan
+    1 - Example 1: Sum over time ✅ 9 Mai 2022
+    2 - Example 2: Accumulating an object ✅ 9 Mai 2022
+    3 - Example 3: Emitting random values from the accumulated array. ❌ 14 Mai 2022
+    4 - Example 4: Accumulating http responses over time ✅ 9 Mai 2022
+22 - https://www.learnrxjs.io/learn-rxjs/operators/transformation/switchmap
+    1 - Example 1: Restart interval on every click ✅ 14 Mai 2022
+    2 - Example 2: Countdown timer with pause and resume ❌ 14 Mai 2022
+    3 - Example 3: Using a resultSelector function // Deprecated
+23 - https://www.learnrxjs.io/learn-rxjs/operators/utility/do
+    1 - Example 1: Logging with tap ✅ 14 Mai 2022
+    2 - Example 2: Using tap with object ✅ 14 Mai 2022
+24 - https://www.learnrxjs.io/learn-rxjs/operators/utility/delay
+    1 - Example 1: Delay to recognize long press ❌ 14 Mai 2022
+    2 - Example 2: Delay for increasing durations ❌ 14 Mai 2022
+25 - https://www.learnrxjs.io/learn-rxjs/subjects/asyncsubject
+    1 - Example 1: simple AsyncSubject ❌ 14 Mai 2022
+26 - https://www.learnrxjs.io/learn-rxjs/subjects/behaviorsubject
+    1 - Example 1: Simple BehaviorSubject ❌ 14 Mai 2022
+    2 - Example 2: BehaviorSubject with new subscribers created on mouse clicks ❌ 16 Mai 2022
+27 - https://www.learnrxjs.io/learn-rxjs/subjects/replaysubject
+    1 - Example 1: simple ReplaySubject ❌ 16 Mai 2022
+28 - https://www.learnrxjs.io/learn-rxjs/subjects/subject
+    1 - Example 1: simple Subject
