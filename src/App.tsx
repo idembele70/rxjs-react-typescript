@@ -1,6 +1,6 @@
-import { useObservable, useObservableCallback, useSubscription } from 'observable-hooks';
+import { useObservable, useObservableCallback, useObservableState, useSubscription } from 'observable-hooks';
 import React from 'react';
-import { concatAll, count, from, map, Observable, scan, share, switchMap, tap, timer, withLatestFrom } from 'rxjs';
+import { concat, debounceTime, delay, distinctUntilChanged, filter, fromEvent, map, merge, mergeMap, Observable, of, pluck, share, switchAll, tap, throttleTime } from 'rxjs';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -53,66 +53,32 @@ const Button = styled.button`
 const Message = styled.div`
 text-align: center;
 `;
+// horizontal scoll indicator
+const ExtendsPage = styled.div`
+  height:200vh;
+`;
+const ProgressIndicator = styled.div<ProgressProps>`
+  position:sticky;
+  top: 0;
+  width:${props => props.width}%;
+  height: 10px;
+  background-color: #FF145C;
+  transition: all 350ms linear;
+`;
+//
 function App() {
-    const [progressWidth, setProgressWidth] = React.useState(0);
-    const [handleClick, click$] = useObservableCallback((e$)=>e$.pipe(
-      share()
-    ));
-    const firstRequest$ = useObservable<string>(()=>timer(1000).pipe(
-      map(()=>"First")
-    ))
-    const secondRequest$ = useObservable<string>(()=>timer(1000).pipe(
-      map(()=>"Second")
-    ))
-    const thirdRequest$ = useObservable<string>(()=>timer(1000).pipe(
-      map(()=>"Third")
-    ))
-    const fourthRequest$ = useObservable<string>(()=>timer(1000).pipe(
-      map(()=>"Fourth")
-    ))
-    const fifthRequest$ = useObservable<string>(()=>timer(1000).pipe(
-      map(()=>"Fifth")
-    ))
-    const observalesArray:Observable<string>[] = [
-      firstRequest$,
-      secondRequest$,
-      thirdRequest$,
-      fourthRequest$,
-      fifthRequest$
-    ]
-    const array$ = useObservable<Observable<string>>(()=>from(
-      observalesArray
-    ))
-    const request$ = useObservable<string>(()=>array$.pipe(concatAll()))
-    const [message, setMessage] = React.useState<Array<string>>([]);
-    const count$ = useObservable<number>(()=>array$.pipe(count()))
-    const progress$ = useObservable<string>(()=>click$.pipe(
-      switchMap(()=>request$),
-     // share(),
-      ))
-    const ratio$ = useObservable<number>(()=>progress$.pipe(
-      tap((v)=>setMessage(vv=>([...vv,v]))),
-      scan(acc=>acc + 1,0),
-      withLatestFrom(count$),
-      map(([current,total])=>current / total * 100),
-      tap(newWidth=>setProgressWidth(newWidth))
-    ))
-    const clicky$ = useObservable<number>(()=>click$.pipe(
-      switchMap(()=> ratio$)
-    ))
-    useSubscription(clicky$)
-    useSubscription(progress$)
+  const scroll$ = useObservable<number>(()=> fromEvent(document,"scroll").pipe(
+    throttleTime(20),
+    tap(()=>console.log()),
+    map(()=>window.scrollY * 100 / window.innerHeight )
+  ))
+  const progressWidth = useObservableState<number>(scroll$,0)
   React.useEffect(()=>{})
   return (<Container>
-    <Progress width={progressWidth}/>
-    <Button onClick={(e)=>{
-      setMessage([])
-      setProgressWidth(0)
-      handleClick(e)
-      }}>Load Data</Button>
-    {message.map(
-      (msg,idx)=><Message key={idx}>{msg}</Message>
-    )}
+    <ProgressIndicator width={progressWidth}/>
+    <Title>Scroll down</Title>
+    <ExtendsPage/>
+    <Title>Boom</Title>
   </Container>
   );
 }

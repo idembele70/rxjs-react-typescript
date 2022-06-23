@@ -13,3 +13,5 @@
     6.1 - Emitting random values from the accumulated array. ✅ 8 Juin 2022
 8 - https://www.learnrxjs.io/learn-rxjs/recipes/save-indicator ✅ 19 Juin 2022
 9 - https://www.learnrxjs.io/learn-rxjs/recipes/progressbar
+10 - https://www.learnrxjs.io/learn-rxjs/recipes/horizontal-scroll-indicator
+11- https://www.learnrxjs.io/learn-rxjs/recipes/smartcounter
