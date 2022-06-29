@@ -2,6 +2,8 @@ import { useObservable, useObservableCallback, useObservableState, useSubscripti
 import React from 'react';
 import { concat, debounceTime, delay, distinctUntilChanged, filter, fromEvent, map, merge, mergeMap, Observable, of, pluck, share, switchAll, tap, throttleTime } from 'rxjs';
 import styled from 'styled-components';
+import SaveIndicator from './components/SaveIndicator';
+import SmartCounter from './components/SmartCounter';
 
 const Container = styled.div`
   width: 100%;
@@ -65,20 +67,12 @@ const ProgressIndicator = styled.div<ProgressProps>`
   background-color: #FF145C;
   transition: all 350ms linear;
 `;
-//
+
 function App() {
-  const scroll$ = useObservable<number>(()=> fromEvent(document,"scroll").pipe(
-    throttleTime(20),
-    tap(()=>console.log()),
-    map(()=>window.scrollY * 100 / window.innerHeight )
-  ))
-  const progressWidth = useObservableState<number>(scroll$,0)
+ 
   React.useEffect(()=>{})
   return (<Container>
-    <ProgressIndicator width={progressWidth}/>
-    <Title>Scroll down</Title>
-    <ExtendsPage/>
-    <Title>Boom</Title>
+    <SaveIndicator/>
   </Container>
   );
 }
