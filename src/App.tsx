@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProgressBar from './components/ProgressBar';
+import SmartCounter from './components/SmartCounter';
 
 const Container = styled.div`
   width: 100vw;
-  box-sizing: border-box;
 `;
 // horizontal scoll indicator
 const ExtendsPage = styled.div`
@@ -26,7 +25,7 @@ function App() {
  
   React.useEffect(()=>{})
   return (<Container>
-    <ProgressBar/>
+    <SmartCounter/>
   </Container>
   );
 }
