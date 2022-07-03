@@ -1,8 +1,7 @@
-import { pluckCurrentTargetValue, useObservable, useObservableCallback, useObservableState, useSubscription } from 'observable-hooks';
-import { distinctUntilChanged, filter, map, pluck, repeat, scan, share, startWith, switchMap, take, takeWhile, tap, timer } from 'rxjs';
+import { useObservable, useObservableState } from 'observable-hooks';
+import React from "react";
+import { map, scan, switchMap, takeWhile, tap, timer } from 'rxjs';
 import styled from 'styled-components';
-import React, { KeyboardEvent } from "react"
-import { createInputFiles } from 'typescript';
 const Input = styled.input`
   height: 20px;
   width: 115px;
@@ -14,34 +13,30 @@ width: 115px;
   text-align: center;
 `;
 const SmartCounter = () => {
-  const inputEl = React.useRef<HTMLInputElement | null >(null)
-  const [currentCounter, setCurrentCounter] = React.useState<number>(0);
-  const [endValue, setEndValue] = React.useState(0);
-  const handleKeyUp = (e:React.KeyboardEvent<HTMLInputElement>) => { 
-    if(e.code === "Enter"){
-      setEndValue(e.currentTarget.valueAsNumber)
-    }
+  const [endRange, setendRange] = React.useState(0);
+  const [startRange, setStartRange] = React.useState(0);
+  const handleKeyDown = (ev:React.KeyboardEvent<HTMLInputElement>) => { 
+    if(ev.code === "Enter")
+    setendRange(ev.currentTarget.valueAsNumber)
    }
-   const takeUntilFunc = (endRange:number, currentNumber:number) => {
-    return endRange > currentNumber
-      ? (val:number) => val <= endRange
-      : (val:number) => val >= endRange;}
-   const enter$ = useObservable(input$=>input$.pipe(
-    switchMap(([endValue,currentCounter])=> timer(0,20).pipe(
-      map(()=>currentCounter < endValue ? 1 : -1),
-      scan((acc,cur)=> acc+ cur,currentCounter),
-    takeWhile(takeUntilFunc(endValue,currentCounter))
+   const enter$ = useObservable(inp$=>inp$.pipe(
+     switchMap(([endRange, startRange])=> timer(0).pipe(
+       map(()=> startRange < endRange ? 1 : -1),
+       scan(
+         (acc,cur)=>acc + cur,startRange
+       ),
+       takeWhile((currentValue)=> startRange < endRange ?
+       currentValue <= endRange : currentValue >= endRange
+       )
      )),
-     tap(v=>setCurrentCounter(v)),
-      startWith(currentCounter)
-   ),[endValue,currentCounter])
-  
-  const count =  useObservableState(enter$,0)
+     tap((endValue)=>setStartRange(endValue))
+   ),[endRange, startRange])
+
   
   return (
     <>
-    <Input ref={inputEl} onKeyUp={handleKeyUp} type="number"/>
-    <Counter>{count}</Counter>
+    <Input onKeyDown={handleKeyDown} type="number"/>
+    <Counter>{useObservableState(enter$,0)}</Counter>
     </>
   )
 }
