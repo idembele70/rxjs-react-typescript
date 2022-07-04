@@ -1,6 +1,6 @@
 import { useObservable, useObservableState } from 'observable-hooks';
 import React from "react";
-import { map, scan, switchMap, takeWhile, tap, timer } from 'rxjs';
+import { map, scan, startWith, switchMap, takeWhile, tap, timer } from 'rxjs';
 import styled from 'styled-components';
 const Input = styled.input`
   height: 20px;
@@ -13,30 +13,31 @@ width: 115px;
   text-align: center;
 `;
 const SmartCounter = () => {
-  const [endRange, setendRange] = React.useState(0);
-  const [startRange, setStartRange] = React.useState(0);
-  const handleKeyDown = (ev:React.KeyboardEvent<HTMLInputElement>) => { 
-    if(ev.code === "Enter")
-    setendRange(ev.currentTarget.valueAsNumber)
+  const [startCount, setStartCount] = React.useState(0);
+  const [endCount, setEndCount] = React.useState(0);
+  const handleChange = (e:React.KeyboardEvent<HTMLInputElement>) => { 
+    if(e.code === "Enter")
+    setEndCount(e.currentTarget.valueAsNumber)
    }
-   const enter$ = useObservable(inp$=>inp$.pipe(
-     switchMap(([endRange, startRange])=> timer(0).pipe(
-       map(()=> startRange < endRange ? 1 : -1),
-       scan(
-         (acc,cur)=>acc + cur,startRange
-       ),
-       takeWhile((currentValue)=> startRange < endRange ?
-       currentValue <= endRange : currentValue >= endRange
-       )
-     )),
-     tap((endValue)=>setStartRange(endValue))
-   ),[endRange, startRange])
-
-  
+  const smartCount$ =  useObservable(inputs$=>inputs$.pipe(
+    switchMap(([startCount,endCount])=> timer(0,20).pipe(
+      map(()=>startCount > endCount ? -1 : 1),
+      startWith(startCount),
+      scan((acc,cur)=>acc+cur),
+      takeWhile(
+        (val)=> startCount > endCount ?
+       val >= endCount :
+       val <= endCount
+      )
+    )),
+  tap(v=>{
+    setStartCount(v)
+  })
+   ),[startCount, endCount])
   return (
     <>
-    <Input onKeyDown={handleKeyDown} type="number"/>
-    <Counter>{useObservableState(enter$,0)}</Counter>
+    <Input type="number" onKeyUp={handleChange}/>
+    <Counter>{useObservableState(smartCount$)}</Counter>
     </>
   )
 }

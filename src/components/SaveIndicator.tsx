@@ -1,6 +1,6 @@
-import { pluckCurrentTargetValue, useObservable, useObservableCallback, useObservableState } from 'observable-hooks';
-import React from 'react'
-import { concat, debounceTime, delay, distinctUntilChanged, distinctUntilKeyChanged, filter, map, merge, mergeMap, Observable, of, pluck, share, switchAll, switchMap, tap, timer } from 'rxjs';
+import { useObservable, useObservableCallback, useObservableState, useSubscription } from 'observable-hooks';
+import React from 'react';
+import { concat, debounceTime, delay, distinctUntilChanged, filter, map, merge, of, pluck, share, switchAll, tap, timer } from 'rxjs';
 import styled from 'styled-components';
 
 const Title = styled.h1``;
@@ -28,35 +28,36 @@ const SaveInfo = styled.h4`
   margin-top: 5px;
 `;
 const SaveIndicator = () => {
-  const [isSaving, setIsSaving] = React.useState<boolean>(false);
+  const [isSaving, setIsSaving] = React.useState(false);
   const [handleChange, change$] = useObservableCallback(e$=>e$.pipe(
     debounceTime(500),
     pluck("target","value"),
     distinctUntilChanged(),
+    //share()
   ));
-  const saveInProgress$ = useObservable<Observable<string>>(()=>change$.pipe(
-    map(()=>of("saving")),
-    tap(()=>setIsSaving(true))
-  ))
-  const saveCompleted$ = useObservable<Observable<string>>(()=>change$.pipe(
-    mergeMap((v)=>of(v).pipe(delay(1500))),
-    tap(()=>setIsSaving(false)),
+  const saveInProgress$ =  useObservable(
+    ()=>change$.pipe(
+      map(()=>of("saving")),
+      tap(()=>setIsSaving(true))
+    )
+  )
+  const saveCompleted$ = useObservable(()=>change$.pipe(
+    tap(()=> setIsSaving(false)),
     filter(()=>isSaving === false),
     map(()=>concat(
-      of('saved'),
-      timer(1500).pipe(
-        map(()=>`Last updated: ${new Date().toLocaleString()}`)
-      )
+      of("saved").pipe(delay(1000)),
+      of(`Last updated ${new Date().toDateString()}`).pipe(delay(1000))
     ))
   ))
-  const merged$ = useObservable<string>(()=> merge(saveInProgress$, saveCompleted$).pipe(switchAll()))
+  const saveMerge$  = useObservable(()=>merge(saveInProgress$,saveCompleted$).pipe(switchAll()))
+     // useSubscription(saveMerge$,console.log)
   return (
     <>
     <Title>SaveIndicator</Title>
     <SubTitle>Take a note</SubTitle>
-    <InputContainer>
-    <Input onChange={handleChange} />
-    <SaveInfo>{useObservableState(merged$,"All Changes saved")}</SaveInfo>
+    <InputContainer onChange={handleChange}>
+    <Input />
+    <SaveInfo>{useObservableState(saveMerge$,"All Changes saved")}</SaveInfo>
     </InputContainer>
     </>
   )
