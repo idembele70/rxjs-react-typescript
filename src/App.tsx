@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ProgressBar from './components/ProgressBar';
 import SaveIndicator from './components/SaveIndicator';
 import ScrollIndicator from './components/ScrollIndicator';
 import SmartCounter from './components/SmartCounter';
@@ -13,7 +14,7 @@ function App() {
  
   React.useEffect(()=>{})
   return (<Container>
-    <SmartCounter/>
+    <ScrollIndicator />
   </Container>
   );
 }

@@ -13,31 +13,8 @@ width: 115px;
   text-align: center;
 `;
 const SmartCounter = () => {
-  const [startCount, setStartCount] = React.useState(0);
-  const [endCount, setEndCount] = React.useState(0);
-  const handleChange = (e:React.KeyboardEvent<HTMLInputElement>) => { 
-    if(e.code === "Enter")
-    setEndCount(e.currentTarget.valueAsNumber)
-   }
-  const smartCount$ =  useObservable(inputs$=>inputs$.pipe(
-    switchMap(([startCount,endCount])=> timer(0,20).pipe(
-      map(()=>startCount > endCount ? -1 : 1),
-      startWith(startCount),
-      scan((acc,cur)=>acc+cur),
-      takeWhile(
-        (val)=> startCount > endCount ?
-       val >= endCount :
-       val <= endCount
-      )
-    )),
-  tap(v=>{
-    setStartCount(v)
-  })
-   ),[startCount, endCount])
   return (
     <>
-    <Input type="number" onKeyUp={handleChange}/>
-    <Counter>{useObservableState(smartCount$)}</Counter>
     </>
   )
 }

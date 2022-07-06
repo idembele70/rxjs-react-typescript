@@ -28,37 +28,8 @@ const SaveInfo = styled.h4`
   margin-top: 5px;
 `;
 const SaveIndicator = () => {
-  const [isSaving, setIsSaving] = React.useState(false);
-  const [handleChange, change$] = useObservableCallback(e$=>e$.pipe(
-    debounceTime(500),
-    pluck("target","value"),
-    distinctUntilChanged(),
-    //share()
-  ));
-  const saveInProgress$ =  useObservable(
-    ()=>change$.pipe(
-      map(()=>of("saving")),
-      tap(()=>setIsSaving(true))
-    )
-  )
-  const saveCompleted$ = useObservable(()=>change$.pipe(
-    tap(()=> setIsSaving(false)),
-    filter(()=>isSaving === false),
-    map(()=>concat(
-      of("saved").pipe(delay(1000)),
-      of(`Last updated ${new Date().toDateString()}`).pipe(delay(1000))
-    ))
-  ))
-  const saveMerge$  = useObservable(()=>merge(saveInProgress$,saveCompleted$).pipe(switchAll()))
-     // useSubscription(saveMerge$,console.log)
   return (
     <>
-    <Title>SaveIndicator</Title>
-    <SubTitle>Take a note</SubTitle>
-    <InputContainer onChange={handleChange}>
-    <Input />
-    <SaveInfo>{useObservableState(saveMerge$,"All Changes saved")}</SaveInfo>
-    </InputContainer>
     </>
   )
 }

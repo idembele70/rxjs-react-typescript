@@ -1,6 +1,3 @@
-import { useObservable, useObservableCallback, useSubscription } from 'observable-hooks';
-import React from 'react';
-import { concatAll, count, delay, from, map, of, scan, share, switchAll, switchMap, withLatestFrom } from 'rxjs';
 import styled from 'styled-components';
 
 interface ProgressProps {
@@ -15,6 +12,7 @@ const Progress = styled.div<ProgressProps>`
   width:95vw;
   max-width: 700px;
   position: relative;
+  border: 1px solid #FF06F7;
   &:after {
     content:"";
     position: absolute;
@@ -42,10 +40,9 @@ const Message = styled.div`
 text-align: center;
 `;
 const ProgressBar = () => {
- 
+
   return (
     <>
-    <Button>Load Data</Button>
     </>
   )
 }
