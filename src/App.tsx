@@ -14,7 +14,7 @@ function App() {
  
   React.useEffect(()=>{})
   return (<Container>
-    <SmartCounter />
+    <ProgressBar/>
   </Container>
   );
 }
