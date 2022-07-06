@@ -14,7 +14,7 @@ function App() {
  
   React.useEffect(()=>{})
   return (<Container>
-    <ProgressBar/>
+    <SaveIndicator/>
   </Container>
   );
 }
