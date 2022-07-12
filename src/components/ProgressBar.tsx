@@ -1,6 +1,6 @@
 import { useObservable, useObservableCallback, useSubscription } from 'observable-hooks';
 import React from 'react';
-import { concatAll, count, delay, from, map, of, scan, share, switchMap, tap, withLatestFrom } from 'rxjs';
+import { concatAll, count, from, map, scan, share, switchMap, tap, timer, withLatestFrom } from 'rxjs';
 import styled from 'styled-components';
 
 interface ProgressProps {
@@ -43,8 +43,44 @@ const Message = styled.div`
 text-align: center;
 `;
 const ProgressBar = () => {
+  const [progressWidth, setProgressWidth] = React.useState(0);
+  const [handleClick, click$] = useObservableCallback(e$=>e$);
+  const array$ = useObservable(()=>from([
+    timer(750).pipe(map(()=>"first")),
+    timer(750).pipe(map(()=>"second")),
+    timer(750).pipe(map(()=>"third")),
+    timer(750).pipe(map(()=>"fourth")),
+    timer(750).pipe(map(()=>"fifth"))
+  ]))
+  const request$ = useObservable(()=>array$.pipe(concatAll()))
+  const [messages, setMessages] = React.useState<string[]>([]);
+  const message$ = useObservable(()=>click$.pipe(
+    switchMap(()=>request$),
+    tap(newMessage=>setMessages(oldMessages=>[...oldMessages,newMessage])),
+    share()
+  ))
+  const count$ = useObservable(()=>array$.pipe(count()))
+  const ratio$ = message$.pipe(
+    scan(acc=>acc+1,0),
+    withLatestFrom(count$),
+    map(([current, total])=> current * 100 / total ),
+    tap((v)=>setProgressWidth(v)),
+  )
+  const clicky$ = useObservable(()=>click$.pipe(
+    switchMap(()=>ratio$)
+  ))
+  useSubscription(clicky$)
+  useSubscription(message$)
   return (
     <>
+    <Progress width={progressWidth}/>
+    <Button onClick={handleClick}>Load Data</Button>
+    {
+      messages.map((message,idx)=> 
+        <Message key={idx}>
+          {message}
+        </Message>)
+    }
     </>
   )
 }
