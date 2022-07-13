@@ -1,6 +1,6 @@
 import { useObservable, useSubscription } from 'observable-hooks';
-import React from 'react'
-import { fromEvent, map, scan, share, switchMap, tap, throttleTime } from 'rxjs';
+import React from 'react';
+import { fromEvent, tap, throttleTime } from 'rxjs';
 import styled from 'styled-components';
 
 const ExtendsPage = styled.div`
@@ -19,9 +19,21 @@ const ProgressIndicator = styled.div<ProgressProps>`
 `;
 
 const ScrollIndicator = () => {
+  const [progressWidth, setProgressWidth] = React.useState(0);
+  const scroll$ = useObservable(()=>fromEvent(document,"scroll").pipe(
+    throttleTime(20),
+    tap(()=>{
+      const {offsetHeight,clientHeight,scrollTop:scrollPosition} = document.documentElement
+      const scrollMaxHeight = offsetHeight - clientHeight
+      const newWidth = scrollPosition * 100 / scrollMaxHeight
+      setProgressWidth(Math.round(newWidth))
+    })
+  ))
+  useSubscription(scroll$)
   return (
     <>
-    
+    <ProgressIndicator width={progressWidth}/>
+    <ExtendsPage/>
     </>
   )
 }

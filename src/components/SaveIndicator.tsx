@@ -28,37 +28,8 @@ const SaveInfo = styled.h4`
   margin-top: 5px;
 `;
 const SaveIndicator = () => {
-  const [handleChange, change$] = useObservableCallback(e$=>e$.pipe(
-    debounceTime(500),
-    pluck("target","value"),
-    distinctUntilChanged(),
-    share()
-  ));
-  const [isSaving, setIsSaving] = React.useState(false);
-  const saving$ = useObservable(()=> change$.pipe(
-    map(()=>of("saving")),
-    tap(()=>setIsSaving(true)),
-    
-  ))
-  const saved$ = useObservable(()=>change$.pipe(
-    tap(()=>setIsSaving(false)),
-    filter(()=> !isSaving),
-    map(()=>concat(
-      of("Saved").pipe(delay(1500)),
-      of(`Last updated: ${new Date().toLocaleString()}`).pipe(delay(1000)),
-    ))
-  ))
-  const saveStatus$ = useObservable(()=>merge(saving$,saved$).pipe(
-    switchAll()
-  ))
   return (
-    <>
-    <Title>Take a note!</Title>
-    <InputContainer>
-    <Input onChange={handleChange}/>
-    <SaveInfo>{useObservableState(saveStatus$,"All changes saved")}</SaveInfo>
-    </InputContainer>
-    </>
+    <></>
   )
 }
 
