@@ -15,3 +15,4 @@
 10 - https://www.learnrxjs.io/learn-rxjs/recipes/horizontal-scroll-indicator
 11- https://www.learnrxjs.io/learn-rxjs/recipes/smartcounter
 8 - https://www.learnrxjs.io/learn-rxjs/recipes/save-indicator ✅ 19 Juin 2022
+12 - https://www.learnrxjs.io/learn-rxjs/recipes/type-ahead

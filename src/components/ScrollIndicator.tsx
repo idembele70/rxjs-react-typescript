@@ -19,21 +19,9 @@ const ProgressIndicator = styled.div<ProgressProps>`
 `;
 
 const ScrollIndicator = () => {
-  const [progressWidth, setProgressWidth] = React.useState(0);
-  const scroll$ = useObservable(()=>fromEvent(document,"scroll").pipe(
-    throttleTime(20),
-    tap(()=>{
-      const {offsetHeight,clientHeight,scrollTop:scrollPosition} = document.documentElement
-      const scrollMaxHeight = offsetHeight - clientHeight
-      const newWidth = scrollPosition * 100 / scrollMaxHeight
-      setProgressWidth(Math.round(newWidth))
-    })
-  ))
-  useSubscription(scroll$)
+  React.useEffect(()=>{})
   return (
     <>
-    <ProgressIndicator width={progressWidth}/>
-    <ExtendsPage/>
     </>
   )
 }
